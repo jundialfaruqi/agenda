@@ -2,7 +2,6 @@
 
 use App\Livewire\Auth\Login;
 use App\Livewire\Dashboard\Dashboard;
-use App\Livewire\MasjidUser\MyMasjid;
 use App\Livewire\Users\User;
 use App\Livewire\Users\CreateUser;
 use App\Livewire\Users\UpdateUser;
@@ -12,6 +11,17 @@ use App\Livewire\Roles\UpdateRole;
 use App\Livewire\Permissions\Permission;
 use App\Livewire\Permissions\CreatePermission;
 use App\Livewire\Permissions\UpdatePermission;
+use App\Livewire\Dashboard\DashboardIndex;
+use App\Livewire\Opd\OpdIndex;
+use App\Livewire\Opd\OpdCreate;
+use App\Livewire\Opd\OpdEdit;
+use App\Livewire\Agenda\AgendaIndex;
+use App\Livewire\Agenda\AgendaCreate;
+use App\Livewire\Agenda\AgendaEdit;
+use App\Livewire\Agenda\AgendaDetail;
+use App\Livewire\Agenda\AgendaRekap;
+use App\Livewire\Public\AttendanceForm;
+use App\Livewire\Public\AttendanceSuccess;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -38,13 +48,20 @@ Route::middleware(['auth', 'role:admin|manager'])->group(function () {
     Route::get('permissions/{permission}/edit', UpdatePermission::class)->name('permissions.edit');
 });
 
-// Route masjid untuk user
-Route::middleware(['auth', 'role:user'])->group(function () {
-    Route::get('my-masjid', MyMasjid::class)->name('masjid.user');
-});
-
 Route::middleware(['auth'])->group(function () {
-    Route::get('dashboard', Dashboard::class)->name('dashboard.index');
+    Route::get('dashboard', DashboardIndex::class)->name('dashboard.index');
+
+    // OPD Management Routes
+    Route::get('opd', OpdIndex::class)->name('opd.index');
+    Route::get('opd/create', OpdCreate::class)->name('opd.create');
+    Route::get('opd/{opd}/edit', OpdEdit::class)->name('opd.edit');
+
+    // Agenda Management Routes
+    Route::get('agenda', AgendaIndex::class)->name('agenda.index');
+    Route::get('agenda/create', AgendaCreate::class)->name('agenda.create');
+    Route::get('agenda/{agenda}/edit', AgendaEdit::class)->name('agenda.edit');
+    Route::get('agenda/{agenda}/detail', AgendaDetail::class)->name('agenda.detail');
+    Route::get('agenda/{agenda}/rekap', AgendaRekap::class)->name('agenda.rekap');
 
     Route::post('/logout', function () {
         Auth::logout();
@@ -73,4 +90,14 @@ Route::group([], function () {
     Route::get('/ttd', function () {
         return view('ttd');
     })->name('ttd');
+});
+
+// Public Attendance Routes (No Authentication Required)
+Route::group([], function () {
+    Route::get('/absensi/{agendaId}/{slug}', AttendanceForm::class)->name('attendance.form');
+Route::get('/absensi/success/{agendaId}', AttendanceSuccess::class)->name('attendance.success');
+// Halaman statis setelah absensi berhasil
+Route::get('/absensi-berhasil', function () {
+    return view('static.absensi-berhasil');
+})->name('attendance.static.success');
 });

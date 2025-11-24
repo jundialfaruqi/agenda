@@ -38,6 +38,7 @@
         </div>
 
         <!-- User info section -->
+        @auth
         <div class="px-4 py-4 mb-2 mx-3 border border-base-300 rounded-lg user-info-container">
             <div class="dropdown dropdown-end w-full">
                 <div tabindex="0" class="flex items-center justify-between cursor-pointer">
@@ -103,6 +104,7 @@
                 </ul>
             </div>
         </div>
+        @endauth
 
         <!-- Sidebar menu -->
         <ul class="menu p-3 w-full  text-base-content text-sm md:text-base flex-1">
@@ -144,14 +146,25 @@
                 </li>
             @endrole
             <li>
-                <a {{-- href="{{ route('categories.index') }}"
-                class="{{ request()->routeIs('categories.*') ? 'menu-active' : '' }}" --}}>
+                <a wire:navigate href="{{ route('opd.index') }}"
+                    class="{{ request()->routeIs('opd.*') ? 'menu-active' : '' }}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                     </svg>
-                    <span class="menu-item-text">Categories</span>
+                    <span class="menu-item-text">OPD</span>
+                </a>
+            </li>
+            <li>
+                <a wire:navigate href="{{ route('agenda.index') }}"
+                    class="{{ request()->routeIs('agenda.*') ? 'menu-active' : '' }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <span class="menu-item-text">Agenda</span>
                 </a>
             </li>
             <li class="menu-title mt-4">

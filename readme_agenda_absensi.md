@@ -4,6 +4,19 @@
 
 Aplikasi Agenda & Absensi QR Code adalah sistem digital untuk mengelola agenda kegiatan dan mencatat kehadiran peserta menggunakan pemindaian QR Code. Sistem ini mempermudah admin dalam membuat agenda, menghasilkan QR Code unik, serta memudahkan tamu dalam melakukan absensi tanpa login. Sistem juga menghasilkan laporan rekap kehadiran dalam format PDF, dengan COP (kop surat) yang disesuaikan secara otomatis berdasarkan OPD penyelenggara.
 
+Yang sudah selesai :
+
+-   layout app : resources/views/components/layouts/app.blade.php
+-   halaman manajemen user /users
+-   halaman manajemen role /roles
+-   halaman manajemen permission /permissions
+-   halaman dashboard /dashboard tapi kontennya belum sesuai
+
+rules :
+
+-   semua js di tempatkan di 1 folder terpisah yaitu resources/js
+-   tempat menu-menu halaman ada di sidebar resources/views/components/sidebar.blade.php
+
 ---
 
 ## 2. Target Pengguna
@@ -84,8 +97,7 @@ Setiap PDF memiliki elemen berikut:
 -   Nomor telepon OPD
 -   Garis resmi kop surat
 -   Detail Agenda
--   Tabel daftar hadir
--   Catatan tambahan
+-   Tabel daftar hadir (no, name, instansi, telp, ttd)
 
 COP berbeda tergantung OPD yang dipilih saat admin membuat agenda.
 
@@ -146,6 +158,7 @@ COP berbeda tergantung OPD yang dipilih saat admin membuat agenda.
 -   nip_nik
 -   name
 -   asal_daerah
+-   telp
 -   opd_id (nullable)
 -   instansi (nullable)
 -   ttd (path file)
@@ -192,6 +205,7 @@ COP berbeda tergantung OPD yang dipilih saat admin membuat agenda.
 -   PDF rapi, siap print
 -   Database scalable hingga 5000+ entri per agenda
 -   UX sederhana untuk tamu
+-   UX Admin menggunakan konsep halaman /users
 
 ---
 

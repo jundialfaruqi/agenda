@@ -133,6 +133,7 @@
                     </div>
                 </div>
             </div>
+            @auth
             <div class="avatar avatar-placeholder">
                 <div
                     class="w-10 h-10 rounded-full flex items-center justify-center
@@ -142,6 +143,7 @@
                     </span>
                 </div>
             </div>
+            @endauth
         </div>
     </div>
 </div>
