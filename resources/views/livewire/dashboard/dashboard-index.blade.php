@@ -79,8 +79,10 @@
                             </p>
                             <p class="flex items-center text-gray-500 mb-0 gap-2">
                                 <i class="fas fa-clock"></i>
-                                <span>{{ substr($agenda->jam_mulai, 0, 5) }} - {{ substr($agenda->jam_selesai, 0, 5) }}</span>
-                                <a href="{{ route('agenda.detail', $agenda->id) }}" class="btn btn-xs btn-primary ml-3">Lihat Detail</a>
+                                <span>{{ substr($agenda->jam_mulai, 0, 5) }} -
+                                    {{ substr($agenda->jam_selesai, 0, 5) }}</span>
+                                <a href="{{ route('agenda.detail', $agenda->id) }}"
+                                    class="btn btn-xs btn-primary ml-3">Lihat Detail</a>
                             </p>
                         </div>
                     @endforeach
@@ -122,7 +124,8 @@
                                         d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                 </svg>
                                 <span>{{ substr($agenda->jam_mulai, 0, 5) }}</span>
-                                <a href="{{ route('agenda.detail', $agenda->id) }}" class="btn btn-xs btn-primary ml-3">Lihat Detail</a>
+                                <a href="{{ route('agenda.detail', $agenda->id) }}"
+                                    class="btn btn-xs btn-primary ml-3">Lihat Detail</a>
                             </p>
                         </div>
                     @endforeach
