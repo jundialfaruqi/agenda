@@ -1,9 +1,10 @@
 <div class="card w-full max-w-xl bg-base-100 shadow-xl">
     <div class="card-body">
-        <div class="text-center">
-            <h2 class="card-title justify-center">Formulir Absensi</h2>
+        <div class="text-center space-y-1">
+            <h2 class="card-title justify-center tracking-wide">Formulir Absensi</h2>
             <p class="text-sm text-base-content/70">{{ $agenda->name }}</p>
         </div>
+        <div class="mt-2 border-t border-base-300"></div>
 
         @if (session()->has('error'))
             <div class="alert alert-error">
@@ -11,126 +12,133 @@
             </div>
         @endif
 
-        <div class="alert alert-info">
-            <div>
-                <div class="font-semibold">Informasi Agenda</div>
-                <div class="text-sm"><span class="font-medium">OPD:</span> {{ $agenda->opd->name }}</div>
-                <div class="text-sm"><span class="font-medium">Tanggal:</span>
-                    {{ \Carbon\Carbon::parse($agenda->date)->format('d F Y') }}</div>
-                <div class="text-sm"><span class="font-medium">Waktu:</span> {{ $agenda->jam_mulai }} -
-                    {{ $agenda->jam_selesai }}</div>
+        <div class="rounded-xl border border-base-300 bg-base-100 p-4 mb-4">
+            <div class="text-xs font-semibold text-base-content/70 uppercase tracking-wide mb-2">Informasi Agenda</div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm">
+                <div><span class="text-base-content/70">OPD:</span> <span
+                        class="font-medium">{{ $agenda->opd->name }}</span></div>
+                <div><span class="text-base-content/70">Tanggal:</span> <span
+                        class="font-medium">{{ \Carbon\Carbon::parse($agenda->date)->format('d F Y') }}</span></div>
+                <div><span class="text-base-content/70">Waktu:</span> <span
+                        class="font-medium">{{ \Carbon\Carbon::parse($agenda->jam_mulai)->format('H:i') }}
+                        - {{ \Carbon\Carbon::parse($agenda->jam_selesai)->format('H:i') }}</span></div>
             </div>
         </div>
 
-        <form wire:submit.prevent="save" class="space-y-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="form-control">
-                    <label class="label" for="nama">
-                        <span class="label-text">Nama Lengkap <span class="text-error">*</span></span>
-                    </label>
-                    <input id="nama" type="text" wire:model="nama" placeholder="Masukkan nama lengkap"
-                        class="input input-bordered w-full" />
-                    @error('nama')
-                        <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
-                    @enderror
-                </div>
-                <div class="form-control">
-                    <label class="label" for="nip_nik">
-                        <span class="label-text">NIP/NIK <span class="text-error">*</span></span>
-                    </label>
-                    <input id="nip_nik" type="text" wire:model="nip_nik" placeholder="Masukkan NIP/NIK"
-                        class="input input-bordered w-full" required />
-                    @error('nip_nik')
-                        <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
-                    @enderror
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="form-control">
-                    <label class="label" for="jabatan">
-                        <span class="label-text">Jabatan</span>
-                    </label>
-                    <input id="jabatan" type="text" wire:model="jabatan" placeholder="Masukkan jabatan"
-                        class="input input-bordered w-full" />
-                    @error('jabatan')
-                        <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
-                    @enderror
-                </div>
-                <div class="form-control">
-                    <label class="label" for="instansi">
-                        <span class="label-text">Instansi/OPD <span class="text-error">*</span></span>
-                    </label>
-                    <input id="instansi" type="text" wire:model="instansi" placeholder="Masukkan instansi/OPD"
-                        class="input input-bordered w-full" />
-                    @error('instansi')
-                        <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
-                    @enderror
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="form-control">
-                    <label class="label" for="no_hp">
-                        <span class="label-text">No. HP <span class="text-error">*</span></span>
-                    </label>
-                    <input id="no_hp" type="text" wire:model="no_hp" placeholder="Masukkan nomor HP"
-                        class="input input-bordered w-full" required />
-                    @error('no_hp')
-                        <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
-                    @enderror
-                </div>
-                <div class="form-control">
-                    <label class="label" for="email">
-                        <span class="label-text">Email</span>
-                    </label>
-                    <input id="email" type="email" wire:model="email" placeholder="Masukkan email"
-                        class="input input-bordered w-full" />
-                    @error('email')
-                        <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
-                    @enderror
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="space-y-4">
+        <form wire:submit.prevent="save" class="space-y-6">
+            <!-- Data Peserta -->
+            <div class="rounded-xl border border-base-300 bg-base-100 p-4 space-y-4">
+                <div class="text-xs font-semibold text-base-content/70 uppercase tracking-wide">Data Peserta</div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="form-control">
-                        <label class="label">
-                            <span class="label-text">Asal Daerah <span class="text-error">*</span></span>
+                        <label class="label" for="nama">
+                            <span class="label-text text-sm font-semibold">Nama Lengkap <span
+                                    class="text-error">*</span></span>
                         </label>
-                        <div class="flex items-center gap-4">
-                            <label class="label cursor-pointer">
-                                <span class="label-text mr-2">Dalam Kota</span>
-                                <input class="radio radio-primary" type="radio" wire:model="asal_daerah"
-                                    id="dalam_kota" value="dalam_kota">
-                            </label>
-                            <label class="label cursor-pointer">
-                                <span class="label-text mr-2">Luar Kota</span>
-                                <input class="radio radio-primary" type="radio" wire:model="asal_daerah"
-                                    id="luar_kota" value="luar_kota">
-                            </label>
-                        </div>
+                        <input id="nama" type="text" wire:model="nama" placeholder="Masukkan nama lengkap"
+                            class="input input-bordered w-full h-11" />
+                        @error('nama')
+                            <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
+                        @enderror
+                    </div>
+                    <div class="form-control">
+                        <label class="label" for="nip_nik">
+                            <span class="label-text text-sm font-semibold">NIP/NIK <span
+                                    class="text-error">*</span></span>
+                        </label>
+                        <input id="nip_nik" type="text" wire:model="nip_nik" placeholder="Masukkan NIP/NIK"
+                            class="input input-bordered w-full h-11" required />
+                        @error('nip_nik')
+                            <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
+                        @enderror
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="form-control">
+                        <label class="label" for="jabatan">
+                            <span class="label-text text-sm font-semibold">Jabatan</span>
+                        </label>
+                        <input id="jabatan" type="text" wire:model="jabatan" placeholder="Masukkan jabatan"
+                            class="input input-bordered w-full h-11" />
+                        @error('jabatan')
+                            <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
+                        @enderror
+                    </div>
+                    <div class="form-control">
+                        <label class="label" for="instansi">
+                            <span class="label-text text-sm font-semibold">Instansi/OPD <span
+                                    class="text-error">*</span></span>
+                        </label>
+                        <input id="instansi" type="text" wire:model="instansi" placeholder="Masukkan instansi/OPD"
+                            class="input input-bordered w-full h-11" />
+                        @error('instansi')
+                            <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kontak -->
+            <div class="rounded-xl border border-base-300 bg-base-100 p-4">
+                <div class="text-xs font-semibold text-base-content/70 uppercase tracking-wide mb-4">Kontak</div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="form-control">
+                        <label class="label" for="no_hp">
+                            <span class="label-text text-sm font-semibold">No. HP <span
+                                    class="text-error">*</span></span>
+                        </label>
+                        <input id="no_hp" type="text" wire:model="no_hp" placeholder="Masukkan nomor HP"
+                            class="input input-bordered w-full h-11" required />
+                        @error('no_hp')
+                            <label class="label"><span
+                                    class="label-text-alt text-error">{{ $message }}</span></label>
+                        @enderror
+                    </div>
+                    <div class="form-control">
+                        <label class="label" for="email">
+                            <span class="label-text text-sm font-semibold">Email</span>
+                        </label>
+                        <input id="email" type="email" wire:model="email" placeholder="Masukkan email"
+                            class="input input-bordered w-full h-11" />
+                        @error('email')
+                            <label class="label"><span
+                                    class="label-text-alt text-error">{{ $message }}</span></label>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kehadiran -->
+            <div class="rounded-xl border border-base-300 bg-base-100 p-4 space-y-4">
+                <div class="text-xs font-semibold text-base-content/70 uppercase tracking-wide">Kehadiran</div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="form-control">
+                        <label class="label" for="asal_daerah">
+                            <span class="label-text text-sm font-semibold">Asal Daerah <span
+                                    class="text-error">*</span></span>
+                        </label>
+                        <select id="asal_daerah" wire:model="asal_daerah" required
+                            class="select select-bordered w-full h-11">
+                            <option value="" disabled selected>-- Pilih Asal Daerah --</option>
+                            <option value="dalam_kota">Dalam Kota</option>
+                            <option value="luar_kota">Luar Kota</option>
+                        </select>
                         @error('asal_daerah')
                             <label class="label"><span
                                     class="label-text-alt text-error">{{ $message }}</span></label>
                         @enderror
                     </div>
                     <div class="form-control">
-                        <label class="label">
-                            <span class="label-text">Status Kehadiran <span class="text-error">*</span></span>
+                        <label class="label" for="status">
+                            <span class="label-text text-sm font-semibold">Status Kehadiran <span
+                                    class="text-error">*</span></span>
                         </label>
-                        <div class="flex items-center gap-4">
-                            <label class="label cursor-pointer">
-                                <span class="label-text mr-2">Hadir</span>
-                                <input class="radio radio-primary" type="radio" wire:model="status" id="hadir"
-                                    value="hadir">
-                            </label>
-                            <label class="label cursor-pointer">
-                                <span class="label-text mr-2">Tidak Hadir</span>
-                                <input class="radio radio-primary" type="radio" wire:model="status"
-                                    id="tidak_hadir" value="tidak_hadir">
-                            </label>
-                        </div>
+                        <select id="status" wire:model="status" required
+                            class="select select-bordered w-full h-11">
+                            <option value="" disabled selected>-- Pilih Status Kehadiran --</option>
+                            <option value="hadir">Hadir</option>
+                            <option value="tidak_hadir">Tidak Hadir</option>
+                        </select>
                         @error('status')
                             <label class="label"><span
                                     class="label-text-alt text-error">{{ $message }}</span></label>
@@ -139,10 +147,10 @@
                 </div>
                 <div class="form-control">
                     <label class="label" for="keterangan">
-                        <span class="label-text">Keterangan</span>
+                        <span class="label-text text-sm font-semibold">Keterangan</span>
                     </label>
                     <textarea id="keterangan" wire:model="keterangan" rows="3" placeholder="Masukkan keterangan (opsional)"
-                        class="textarea textarea-bordered w-full"></textarea>
+                        class="textarea textarea-bordered w-full text-sm min-h-24"></textarea>
                     @error('keterangan')
                         <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
                     @enderror
@@ -150,50 +158,56 @@
             </div>
 
             @if ($status === 'hadir')
-                <div class="form-control">
-                    <label class="label">
-                        <span class="label-text">Tanda Tangan Digital <span class="text-error">*</span></span>
-                    </label>
-                    <div class="rounded-lg p-3 border border-dashed border-base-300" wire:ignore
-                        id="signature-wrapper">
-                        <div class="mb-3 flex items-center gap-3">
-                            <label class="label m-0"><span class="label-text">Warna:</span></label>
-                            <input id="pen-color" type="color" value="#0f172a"
-                                class="w-10 h-8 rounded-md border border-base-300" />
-                            <label class="label m-0"><span class="label-text">Ketebalan:</span></label>
-                            <input id="pen-width" type="range" min="1" max="8" value="2"
-                                class="range range-xs w-40" />
-                            <button type="button" id="undo"
-                                class="btn btn-xs btn-outline ml-auto">Undo</button>
-                        </div>
-                        <div class="relative rounded-lg border border-dashed border-base-300">
-                            <canvas id="signature" class="w-full"
-                                style="width: 100%; height: 220px; background: #f8fafc;"></canvas>
-                            <div id="empty-hint"
-                                class="absolute inset-0 flex items-center justify-center text-center pointer-events-none">
-                                <div class="text-base-content/50 text-sm">Mulailah menggambar tanda tangan di
-                                    sini</div>
+                <div class="rounded-xl border border-base-300 bg-base-100 p-4 space-y-3">
+                    <div class="form-control">
+                        <label class="label mb-3">
+                            <span class="label-text text-sm font-semibold">
+                                Tanda Tangan Digital
+                                <span class="text-error">*</span>
+                            </span>
+                        </label>
+                        <div class="rounded-lg p-3 border border-dashed border-base-300" wire:ignore
+                            id="signature-wrapper">
+                            <div class="mb-3 flex items-center gap-3">
+                                <label class="label m-0"><span class="label-text">Warna:</span></label>
+                                <input id="pen-color" type="color" value="#0f172a"
+                                    class="w-10 h-8 rounded-md border border-base-300" />
+                                <label class="label m-0"><span class="label-text">Ketebalan:</span></label>
+                                <input id="pen-width" type="range" min="1" max="8" value="2"
+                                    class="range range-xs w-40" />
+                                <button type="button" id="undo"
+                                    class="btn btn-xs btn-outline ml-auto">Undo</button>
+                            </div>
+                            <div class="relative rounded-lg border border-dashed border-base-300">
+                                <canvas id="signature" class="w-full"
+                                    style="width: 100%; height: 220px; background: #f8fafc;"></canvas>
+                                <div id="empty-hint"
+                                    class="absolute inset-0 flex items-center justify-center text-center pointer-events-none">
+                                    <div class="text-base-content/50 text-sm">Mulailah menggambar tanda tangan di sini
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3 flex gap-2">
+                                <button type="button" id="clear"
+                                    class="btn btn-sm btn-outline btn-error">Bersihkan</button>
+                                <button type="button" id="save" class="btn btn-sm btn-primary">Simpan
+                                    TTD</button>
+                                <button type="button" id="download"
+                                    class="btn btn-sm btn-outline btn-primary">Unduh PNG</button>
+                            </div>
+                            <div id="preview" class="mt-3 hidden">
+                                <label class="label"><span class="label-text">Preview</span></label>
+                                <img id="preview_img" alt="Preview TTD"
+                                    class="rounded-md border border-base-300 max-h-40" />
                             </div>
                         </div>
-                        <div class="mt-3 flex gap-2">
-                            <button type="button" id="clear"
-                                class="btn btn-sm btn-outline btn-error">Bersihkan</button>
-                            <button type="button" id="save" class="btn btn-sm btn-primary">Simpan
-                                TTD</button>
-                            <button type="button" id="download" class="btn btn-sm btn-outline btn-primary">Unduh
-                                PNG</button>
-                        </div>
-                        <div id="preview" class="mt-3 hidden">
-                            <label class="label"><span class="label-text">Preview</span></label>
-                            <img id="preview_img" alt="Preview TTD"
-                                class="rounded-md border border-base-300 max-h-40" />
-                        </div>
+                        <!-- Hidden input di luar wire:ignore agar Livewire menangkap perubahan -->
+                        <input type="hidden" id="signature_data" wire:model.defer="ttd_data" />
+                        @error('ttd_data')
+                            <label class="label"><span
+                                    class="label-text-alt text-error">{{ $message }}</span></label>
+                        @enderror
                     </div>
-                    <!-- Hidden input di luar wire:ignore agar Livewire menangkap perubahan -->
-                    <input type="hidden" id="signature_data" wire:model.defer="ttd_data" />
-                    @error('ttd_data')
-                        <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
-                    @enderror
                 </div>
             @endif
 

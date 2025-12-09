@@ -31,29 +31,30 @@
         <div class="lg:col-span-2">
             <div class="card bg-base-100 border border-base-300">
                 <div class="card-body">
-                    <div class="card-title">Informasi Agenda</div>
-                    <div class="grid md:grid-cols-2 gap-4">
-                        <div>
-                            <p class="text-sm text-gray-500">Nama Agenda</p>
-                            <p class="font-medium">{{ $agenda->name }}</p>
+                    <div class="card-title pb-3 border-b border-base-300">Informasi Agenda</div>
+                    <div class="grid pt-2 grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+                        <div class="space-y-1">
+                            <p class="text-xs font-medium text-base-content/70">Nama Agenda</p>
+                            <p class="text-base text-base-content">{{ $agenda->name }}</p>
                         </div>
-                        <div>
-                            <p class="text-sm text-gray-500">OPD Penyelenggara</p>
-                            <p class="font-medium">{{ data_get($agenda, 'opd.name', '-') }}</p>
+                        <div class="space-y-1">
+                            <p class="text-xs font-medium text-base-content/70">OPD Penyelenggara</p>
+                            <p class="text-base text-base-content">{{ data_get($agenda, 'opd.name', '-') }}</p>
                         </div>
-                        <div>
-                            <p class="text-sm text-gray-500">Tanggal</p>
-                            <p class="font-medium">{{ \Carbon\Carbon::parse($agenda->date)->format('d F Y') }}</p>
+                        <div class="space-y-1">
+                            <p class="text-xs font-medium text-base-content/70">Tanggal</p>
+                            <p class="text-base text-base-content">
+                                {{ \Carbon\Carbon::parse($agenda->date)->format('d F Y') }}</p>
                         </div>
-                        <div>
-                            <p class="text-sm text-gray-500">Waktu</p>
-                            <p class="font-medium">Jam {{ \Carbon\Carbon::parse($agenda->jam_mulai)->format('H:i') }}
-                                s/d
+                        <div class="space-y-1">
+                            <p class="text-xs font-medium text-base-content/70">Waktu</p>
+                            <p class="text-base text-base-content">
+                                {{ \Carbon\Carbon::parse($agenda->jam_mulai)->format('H:i') }} -
                                 {{ \Carbon\Carbon::parse($agenda->jam_selesai)->format('H:i') }} WIB</p>
                         </div>
-                        <div>
-                            <p class="text-sm text-gray-500">Status Waktu</p>
-                            <p>
+                        <div class="space-y-1">
+                            <p class="text-xs font-medium text-base-content/70">Status Waktu</p>
+                            <div>
                                 @if ($agenda->status_waktu == 'sedang_berlangsung')
                                     <span class="badge badge-warning">Sedang Berlangsung</span>
                                 @elseif ($agenda->status_waktu == 'akan_datang')
@@ -63,11 +64,11 @@
                                 @else
                                     <span class="badge badge-success">Selesai</span>
                                 @endif
-                            </p>
+                            </div>
                         </div>
-                        <div>
-                            <p class="text-sm text-gray-500">Status Agenda</p>
-                            <p>
+                        <div class="space-y-1">
+                            <p class="text-xs font-medium text-base-content/70">Status Agenda</p>
+                            <div>
                                 @if ($agenda->status === 'aktif')
                                     <span class="badge badge-primary">Aktif</span>
                                 @elseif ($agenda->status === 'selesai')
@@ -75,37 +76,38 @@
                                 @else
                                     <span class="badge badge-error">Dibatalkan</span>
                                 @endif
-                            </p>
+                            </div>
                         </div>
-                        <div>
-                            <p class="text-sm text-gray-500">Dibuat oleh</p>
-                            <p class="font-medium">{{ optional($agenda->user)->name }}</p>
+                        <div class="space-y-1">
+                            <p class="text-xs font-medium text-base-content/70">Dibuat oleh</p>
+                            <p class="text-base text-base-content">{{ optional($agenda->user)->name }}</p>
                         </div>
                     </div>
 
-                    <div class="mt-4 space-y-3">
+                    <div class="mt-1 pt-1 space-y-3">
                         @if ($agenda->link_zoom)
-                            <div class="flex items-center gap-2">
-                                <span class="text-sm text-gray-500">Link Zoom</span>
-                                <a href="{{ $agenda->link_zoom }}" target="_blank"
-                                    class="btn btn-outline btn-primary btn-sm">
+                            <div
+                                class="flex items-center justify-between rounded-lg border border-base-300 bg-base-100 p-3">
+                                <span class="text-sm font-medium">Link Zoom</span>
+                                <a href="{{ $agenda->link_zoom }}" target="_blank" rel="noopener"
+                                    class="btn btn-primary btn-sm">
                                     Buka Zoom
                                 </a>
                             </div>
                         @endif
                         @if ($agenda->link_paparan)
-                            <div class="flex items-center gap-2">
-                                <span class="text-sm text-gray-500">Link Paparan</span>
-                                <a href="{{ $agenda->link_paparan }}" target="_blank"
-                                    class="btn btn-outline btn-primary btn-sm">
+                            <div
+                                class="flex items-center justify-between rounded-lg border border-base-300 bg-base-100 p-3">
+                                <span class="text-sm font-medium">Link Paparan</span>
+                                <a href="{{ $agenda->link_paparan }}" target="_blank" rel="noopener"
+                                    class="btn btn-primary btn-sm">
                                     Buka Paparan
                                 </a>
                             </div>
                         @endif
                         @if ($agenda->catatan)
-                            <div>
-                                <p class="text-sm text-gray-500">Catatan</p>
-                                <div class="alert bg-base-200 border border-base-300">{{ $agenda->catatan }}</div>
+                            <div class="alert bg-base-200 border border-base-300 mt-1    rounded-lg text-sm">
+                                {{ $agenda->catatan }}
                             </div>
                         @endif
                     </div>

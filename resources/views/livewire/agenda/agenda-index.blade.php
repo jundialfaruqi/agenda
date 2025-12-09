@@ -93,8 +93,6 @@
                             <i class="fas fa-sort-{{ $sortDirection === 'asc' ? 'up' : 'down' }}"></i>
                         @endif
                     </th>
-                    <th>Waktu</th>
-                    <th>Link Zoom</th>
                     <th>Total Absensi</th>
                     <th>Status</th>
                     <th class="text-right"></th>
@@ -114,34 +112,20 @@
                             <span
                                 class="badge badge-primary font-bold">{{ data_get($agenda, 'opd.singkatan', '-') }}</span>
                         </td>
-                        <td>
-                            {{ \Carbon\Carbon::parse($agenda->date)->format('d/m/Y') }}
-                        </td>
-                        <td>
-                            {{ \Carbon\Carbon::createFromFormat('H:i:s', $agenda->jam_mulai)->format('H:i') }} -
-                            {{ \Carbon\Carbon::createFromFormat('H:i:s', $agenda->jam_selesai)->format('H:i') }}
-                        </td>
-                        <td>
-                            @if ($agenda->link_zoom)
-                                <a href="{{ $agenda->link_zoom }}" target="_blank"
-                                    class="btn btn-outline btn-primary btn-sm">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="2" stroke="currentColor" class="size-[1.1em]">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14V10z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M3 7a2 2 0 012-2h7a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" />
-                                    </svg>
-                                    Zoom
-                                </a>
-                            @else
-                                <span class="text-gray-400">-</span>
-                            @endif
+                        <td class="whitespace-nowrap">
+                            <div>
+                                {{ \Carbon\Carbon::parse($agenda->date)->format('d/m/Y') }}
+                            </div>
+                            <div class="text-xs text-gray-500">
+                                {{ \Carbon\Carbon::createFromFormat('H:i:s', $agenda->jam_mulai)->format('H:i') }} -
+                                {{ \Carbon\Carbon::createFromFormat('H:i:s', $agenda->jam_selesai)->format('H:i') }}
+                                Wib
+                            </div>
                         </td>
                         <td class="text-center">
-                            <span class="badge badge-success font-bold">{{ $agenda->absensis_count }}</span>
+                            <span class="font-bold">{{ $agenda->absensis_count }}</span>
                         </td>
-                        <td>
+                        <td class="text-center whitespace-nowrap font-bold">
                             @php
                                 $now = now();
                                 $agendaDate = \Carbon\Carbon::parse($agenda->date);
@@ -181,14 +165,16 @@
                                             d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                     </svg>
                                 </a>
-                                <a href="{{ route('attendance.form', ['agendaId' => $agenda->id, 'slug' => $agenda->slug]) }}" wire:navigate
+                                <a href="{{ route('attendance.form', ['agendaId' => $agenda->id, 'slug' => $agenda->slug]) }}"
+                                    wire:navigate
                                     class="btn btn-square btn-sm backdrop-blur-md bg-white/10 border border-white/20 shadow hover:bg-green-500/20 hover:border-green-500/40"
                                     title="Absensi">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="size-[1.2em]">
-                                        <rect x="3" y="3" width="6" height="6" rx="1"/>
-                                        <rect x="15" y="3" width="6" height="6" rx="1"/>
-                                        <rect x="3" y="15" width="6" height="6" rx="1"/>
-                                        <path d="M15 15h6v6h-6zM17 17h2v2h-2z"/>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" class="size-[1.2em]">
+                                        <rect x="3" y="3" width="6" height="6" rx="1" />
+                                        <rect x="15" y="3" width="6" height="6" rx="1" />
+                                        <rect x="3" y="15" width="6" height="6" rx="1" />
+                                        <path d="M15 15h6v6h-6zM17 17h2v2h-2z" />
                                     </svg>
                                 </a>
                                 <a href="{{ route('agenda.rekap', $agenda->id) }}" wire:navigate
@@ -202,8 +188,8 @@
                                             d="M9 9h6M9 12h6M9 15h3" />
                                     </svg>
                                 </a>
-                                <button wire:click="deleteAgenda({{ $agenda->id }})"
-                                    onclick="confirm('Apakah Anda yakin ingin menghapus agenda ini?') || event.stopImmediatePropagation()"
+                                <button type="button"
+                                    onclick="document.getElementById('confirm-delete-{{ $agenda->id }}').showModal()"
                                     class="btn btn-square btn-sm backdrop-blur-md bg-white/10 border border-white/20 shadow hover:bg-red-500/20 hover:border-red-500/40"
                                     title="Hapus">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -212,6 +198,46 @@
                                             d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                                     </svg>
                                 </button>
+
+                                <!-- Modal Konfirmasi Hapus -->
+                                <dialog id="confirm-delete-{{ $agenda->id }}" class="modal">
+                                    <div class="modal-box text-center">
+                                        <div class="card-title justify-center pb-3 border-b border-base-300">
+                                            <div class="flex items-center justify-center gap-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                    class="size-6 text-red-500">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                                                </svg>
+                                                <h3 class="text-lg font-bold text-red-500">Hapus Agenda?</h3>
+                                            </div>
+                                        </div>
+                                        <p class="mt-4 text-xs text-gray-500">Tindakan ini akan menghapus agenda
+                                            beserta data terkait yang relevan. Proses tidak dapat dibatalkan.</p>
+
+                                        <div class="mt-4 space-y-3">
+                                            <div>
+                                                <p class="text-sm font-medium">Nama Agenda</p>
+                                                <p class="text-gray-600">{{ $agenda->name }}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-action justify-center mt-6 pt-4 border-t border-base-300">
+                                            <form method="dialog">
+                                                <button class="btn">Batal</button>
+                                            </form>
+                                            <button class="btn btn-error"
+                                                onclick="document.getElementById('confirm-delete-{{ $agenda->id }}').close()"
+                                                wire:click="deleteAgenda({{ $agenda->id }})">
+                                                Ya, Hapus
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <form method="dialog" class="modal-backdrop">
+                                        <button>Tutup</button>
+                                    </form>
+                                </dialog>
                             </div>
                         </td>
                     </tr>
