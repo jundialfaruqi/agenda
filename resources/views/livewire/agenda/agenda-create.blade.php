@@ -4,12 +4,34 @@
             <form wire:submit="save">
                 @csrf
                 <div class="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 gap-4">
+
+                    {{-- Status Agenda --}}
+                    <div class="form-control">
+                        <label class="label mb-2">
+                            <span class="label-text font-medium">Status Agenda <span class="text-error">*</span></span>
+                        </label>
+                        <select wire:model="status"
+                            class="select select-bordered w-full @error('status') select-error @enderror">
+                            <option value="">Pilih Status</option>
+                            <option value="aktif">Aktif</option>
+                            <option value="selesai">Selesai</option>
+                            <option value="dibatalkan">Dibatalkan</option>
+                        </select>
+                        @error('status')
+                            <label class="label">
+                                <span class="label-text-alt text-error">{{ $message }}</span>
+                            </label>
+                        @enderror
+                    </div>
+
                     {{-- Nama Agenda --}}
                     <div class="form-control lg:col-span-2">
                         <label class="label mb-2">
                             <span class="label-text font-medium">Nama Agenda <span class="text-error">*</span></span>
                         </label>
-                        <input type="text" wire:model="name" class="input w-full @error('name') input-error @enderror" placeholder="Masukkan nama agenda">
+                        <input type="text" wire:model="name"
+                            class="input w-full @error('name') input-error @enderror"
+                            placeholder="Masukkan nama agenda">
                         @error('name')
                             <label class="label">
                                 <span class="label-text-alt text-error">{{ $message }}</span>
@@ -20,9 +42,11 @@
                     {{-- OPD Penyelenggara --}}
                     <div class="form-control">
                         <label class="label mb-2">
-                            <span class="label-text font-medium">OPD Penyelenggara <span class="text-error">*</span></span>
+                            <span class="label-text font-medium">OPD Penyelenggara <span
+                                    class="text-error">*</span></span>
                         </label>
-                        <select wire:model="opd_id" class="select select-bordered w-full @error('opd_id') select-error @enderror">
+                        <select wire:model="opd_id"
+                            class="select select-bordered w-full @error('opd_id') select-error @enderror">
                             <option value="">Pilih OPD</option>
                             @foreach ($opds as $opd)
                                 <option value="{{ $opd->id }}">{{ $opd->name }}</option>
@@ -40,7 +64,8 @@
                         <label class="label mb-2">
                             <span class="label-text font-medium">Tanggal <span class="text-error">*</span></span>
                         </label>
-                        <input type="date" wire:model="date" class="input input-bordered w-full @error('date') input-error @enderror">
+                        <input type="date" wire:model="date"
+                            class="input input-bordered w-full @error('date') input-error @enderror">
                         @error('date')
                             <label class="label">
                                 <span class="label-text-alt text-error">{{ $message }}</span>
@@ -53,7 +78,8 @@
                         <label class="label mb-2">
                             <span class="label-text font-medium">Jam Mulai <span class="text-error">*</span></span>
                         </label>
-                        <input type="time" wire:model="jam_mulai" class="input input-bordered w-full @error('jam_mulai') input-error @enderror">
+                        <input type="time" wire:model="jam_mulai"
+                            class="input input-bordered w-full @error('jam_mulai') input-error @enderror">
                         @error('jam_mulai')
                             <label class="label">
                                 <span class="label-text-alt text-error">{{ $message }}</span>
@@ -66,7 +92,8 @@
                         <label class="label mb-2">
                             <span class="label-text font-medium">Jam Selesai <span class="text-error">*</span></span>
                         </label>
-                        <input type="time" wire:model="jam_selesai" class="input input-bordered w-full @error('jam_selesai') input-error @enderror">
+                        <input type="time" wire:model="jam_selesai"
+                            class="input input-bordered w-full @error('jam_selesai') input-error @enderror">
                         @error('jam_selesai')
                             <label class="label">
                                 <span class="label-text-alt text-error">{{ $message }}</span>
@@ -79,7 +106,9 @@
                         <label class="label mb-2">
                             <span class="label-text font-medium">Link Zoom (Opsional)</span>
                         </label>
-                        <input type="url" wire:model="link_zoom" class="input w-full @error('link_zoom') input-error @enderror" placeholder="https://zoom.us/j/...">
+                        <input type="url" wire:model="link_zoom"
+                            class="input w-full @error('link_zoom') input-error @enderror"
+                            placeholder="https://zoom.us/j/...">
                         @error('link_zoom')
                             <label class="label">
                                 <span class="label-text-alt text-error">{{ $message }}</span>
@@ -92,7 +121,9 @@
                         <label class="label mb-2">
                             <span class="label-text font-medium">Link Paparan (Opsional)</span>
                         </label>
-                        <input type="url" wire:model="link_paparan" class="input w-full @error('link_paparan') input-error @enderror" placeholder="https://docs.google.com/...">
+                        <input type="url" wire:model="link_paparan"
+                            class="input w-full @error('link_paparan') input-error @enderror"
+                            placeholder="https://docs.google.com/...">
                         @error('link_paparan')
                             <label class="label">
                                 <span class="label-text-alt text-error">{{ $message }}</span>
@@ -105,7 +136,8 @@
                         <label class="label mb-2">
                             <span class="label-text font-medium">Catatan (Opsional)</span>
                         </label>
-                        <textarea wire:model="catatan" class="textarea textarea-bordered w-full @error('catatan') textarea-error @enderror" rows="4" placeholder="Catatan tambahan untuk agenda..."></textarea>
+                        <textarea wire:model="catatan" class="textarea textarea-bordered w-full @error('catatan') textarea-error @enderror"
+                            rows="4" placeholder="Catatan tambahan untuk agenda..."></textarea>
                         @error('catatan')
                             <label class="label">
                                 <span class="label-text-alt text-error">{{ $message }}</span>
@@ -119,7 +151,8 @@
                     <a href="{{ route('agenda.index') }}" class="btn btn-sm" wire:navigate>Batal</a>
                     <button type="submit" class="btn btn-sm btn-primary">
                         <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                         </svg>
                         Simpan Agenda
                         <span wire:loading class="loading loading-spinner loading-sm"></span>
@@ -135,7 +168,9 @@
             <div class="card-body">
                 <div class="card-title mb-4">
                     <svg class="size-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                        <path fill-rule="evenodd"
+                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                            clip-rule="evenodd"></path>
                     </svg>
                     <h2 class="text-lg font-semibold">Informasi & Tips</h2>
                 </div>

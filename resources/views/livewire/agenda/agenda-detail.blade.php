@@ -54,7 +54,7 @@
                         </div>
                         <div class="space-y-1">
                             <p class="text-xs font-medium text-base-content/70">Status Waktu</p>
-                            <div>
+                            <div class="font-bold">
                                 @if ($agenda->status_waktu == 'sedang_berlangsung')
                                     <span class="badge badge-warning">Sedang Berlangsung</span>
                                 @elseif ($agenda->status_waktu == 'akan_datang')
@@ -68,7 +68,7 @@
                         </div>
                         <div class="space-y-1">
                             <p class="text-xs font-medium text-base-content/70">Status Agenda</p>
-                            <div>
+                            <div class="font-bold">
                                 @if ($agenda->status === 'aktif')
                                     <span class="badge badge-primary">Aktif</span>
                                 @elseif ($agenda->status === 'selesai')
@@ -77,10 +77,6 @@
                                     <span class="badge badge-error">Dibatalkan</span>
                                 @endif
                             </div>
-                        </div>
-                        <div class="space-y-1">
-                            <p class="text-xs font-medium text-base-content/70">Dibuat oleh</p>
-                            <p class="text-base text-base-content">{{ optional($agenda->user)->name }}</p>
                         </div>
                     </div>
 
@@ -121,7 +117,7 @@
             <p class="text-sm text-gray-500 mb-2">Isi daftar hadir scan disini.</p>
             @if ($agenda->barcode)
                 <a href="{{ route('attendance.form', ['agendaId' => $agenda->id, 'slug' => $agenda->slug]) }}"
-                    wire:navigate class="group inline-block rounded-xl">
+                    target="_blank" rel="noopener" class="group inline-block rounded-xl">
                     <img src="{{ asset($agenda->barcode) }}" alt="Barcode Agenda"
                         class="w-72 h-72 md:w-80 md:h-80 object-contain border border-base-300 rounded-xl p-1 bg-white cursor-pointer group-hover:border-primary group-hover:shadow-md transition" />
                 </a>

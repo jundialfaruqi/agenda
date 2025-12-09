@@ -111,6 +111,8 @@ class AttendanceForm extends Component
             'asal_daerah' => $this->asal_daerah,
             'instansi' => $this->instansi,
             'telp' => $this->no_hp,
+            'email' => $this->email,
+            'keterangan' => $this->keterangan,
             'ttd' => $ttdPath,
             'waktu_hadir' => $this->status === 'hadir' ? Carbon::now() : null,
             'status' => $this->status,

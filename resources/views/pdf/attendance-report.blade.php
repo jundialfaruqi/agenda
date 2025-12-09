@@ -85,20 +85,20 @@
     <div class="header">
         <h1>LAPORAN ABSENSI</h1>
         <h2>{{ $agenda->name }}</h2>
-        <p>{{ $agenda->opd->name }}</p>
+        <p>{{ optional($agenda->opd)->name }}</p>
     </div>
 
     <div class="agenda-info">
         <table style="width: 100%; border: none;">
             <tr>
                 <td style="border: none; width: 25%;"><strong>OPD Penyelenggara:</strong></td>
-                <td style="border: none; width: 25%;">{{ $agenda->opd->name }}</td>
+                <td style="border: none; width: 25%;">{{ optional($agenda->opd)->name }}</td>
                 <td style="border: none; width: 25%;"><strong>Tanggal:</strong></td>
                 <td style="border: none; width: 25%;">{{ \Carbon\Carbon::parse($agenda->date)->format('d F Y') }}</td>
             </tr>
             <tr>
                 <td style="border: none;"><strong>Waktu:</strong></td>
-                <td style="border: none;">{{ $agenda->jam_mulai }} - {{ $agenda->jam_selesai }}</td>
+                <td style="border: none;">{{ \Carbon\Carbon::parse($agenda->jam_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($agenda->jam_selesai)->format('H:i') }}</td>
                 <td style="border: none;"><strong>Tempat:</strong></td>
                 <td style="border: none;">{{ $agenda->link_zoom ?? 'Tidak tersedia' }}</td>
             </tr>
@@ -136,22 +136,22 @@
                 <th>Instansi</th>
                 <th>Waktu Absen</th>
                 <th>Status</th>
-                <th>Catatan</th>
+                <th>Keterangan</th>
             </tr>
         </thead>
         <tbody>
             @forelse($attendances as $index => $attendance)
             <tr>
                 <td>{{ $index + 1 }}</td>
-                <td>{{ $attendance->nama }}</td>
+                <td>{{ $attendance->name }}</td>
                 <td>{{ $attendance->nip_nik ?? '-' }}</td>
                 <td>{{ $attendance->jabatan ?? '-' }}</td>
                 <td>{{ $attendance->instansi ?? '-' }}</td>
                 <td>{{ $attendance->waktu_hadir ? \Carbon\Carbon::parse($attendance->waktu_hadir)->format('d/m/Y H:i') : '-' }}</td>
                 <td class="{{ $attendance->status == 'hadir' ? 'hadir' : 'tidak-hadir' }}">
-                    {{ strtoupper($attendance->status) }}
+                    {{ $attendance->status }}
                 </td>
-                <td>{{ $attendance->catatan ?? '-' }}</td>
+                <td>{{ $attendance->keterangan ?? '-' }}</td>
             </tr>
             @empty
             <tr>

@@ -7,6 +7,9 @@ use App\Models\Agenda;
 use App\Models\Opd;
 use App\Services\QrCodeService;
 use Illuminate\Support\Str;
+use Livewire\Attributes\Title;
+
+#[Title('Edit Agenda')]
 
 class AgendaEdit extends Component
 {
@@ -19,6 +22,7 @@ class AgendaEdit extends Component
     public $link_paparan;
     public $link_zoom;
     public $catatan;
+    public $status;
 
     protected $rules = [
         'name' => 'required|string|max:255',
@@ -29,6 +33,7 @@ class AgendaEdit extends Component
         'link_paparan' => 'nullable|url',
         'link_zoom' => 'nullable|url',
         'catatan' => 'nullable|string',
+        'status' => 'required|in:aktif,selesai,dibatalkan',
     ];
 
     public function mount(Agenda $agenda)
@@ -50,6 +55,7 @@ class AgendaEdit extends Component
         $this->link_paparan = $agenda->link_paparan;
         $this->link_zoom = $agenda->link_zoom;
         $this->catatan = $agenda->catatan;
+        $this->status = $agenda->status;
     }
 
     public function update()
@@ -57,7 +63,7 @@ class AgendaEdit extends Component
         $this->validate();
 
         $agenda = Agenda::findOrFail($this->agendaId);
-        
+
         $agenda->update([
             'name' => $this->name,
             'slug' => Str::slug($this->name),
@@ -68,17 +74,18 @@ class AgendaEdit extends Component
             'link_paparan' => $this->link_paparan,
             'link_zoom' => $this->link_zoom,
             'catatan' => $this->catatan,
+            'status' => $this->status,
         ]);
 
         session()->flash('success', 'Agenda berhasil diperbarui.');
-        
+
         return redirect()->route('agenda.index');
     }
 
     public function render()
     {
         $opds = Opd::all();
-        
+
         return view('livewire.agenda.agenda-edit', [
             'opds' => $opds,
         ]);

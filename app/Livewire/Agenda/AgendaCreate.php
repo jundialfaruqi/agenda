@@ -6,8 +6,11 @@ use App\Models\Agenda;
 use App\Models\Opd;
 use App\Services\QrCodeService;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\Attributes\Title;
 
+#[Title('Buat Agenda')]
 class AgendaCreate extends Component
 {
     public $name = '';
@@ -18,6 +21,7 @@ class AgendaCreate extends Component
     public $link_paparan = '';
     public $link_zoom = '';
     public $catatan = '';
+    public $status = 'aktif';
 
     protected $rules = [
         'name' => 'required|string|max:255',
@@ -28,6 +32,7 @@ class AgendaCreate extends Component
         'link_paparan' => 'nullable|url|max:500',
         'link_zoom' => 'nullable|url|max:500',
         'catatan' => 'nullable|string|max:1000',
+        'status' => 'required|in:aktif,selesai,dibatalkan',
     ];
 
     public function save()
@@ -38,7 +43,7 @@ class AgendaCreate extends Component
         // Buat agenda terlebih dahulu
         $agenda = Agenda::create([
             'opd_id' => $this->opd_id,
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'name' => $this->name,
             'slug' => $slug,
             'date' => $this->date,
@@ -48,6 +53,7 @@ class AgendaCreate extends Component
             'link_zoom' => $this->link_zoom,
             'barcode' => null,
             'catatan' => $this->catatan,
+            'status' => $this->status,
         ]);
 
         // Generate QR Code berdasarkan agenda yang sudah dibuat

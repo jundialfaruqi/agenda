@@ -83,18 +83,22 @@
                     <th wire:click="sortBy('name')" class="cursor-pointer">
                         Nama Agenda
                         @if ($sortField === 'name')
-                            <i class="fas fa-sort-{{ $sortDirection === 'asc' ? 'up' : 'down' }}"></i>
+                            <i class="fas fa-sort-{{ $sortDirection === 'asc' ? 'up' : 'down' }}">
+
+                            </i>
                         @endif
                     </th>
                     <th>OPD</th>
                     <th wire:click="sortBy('date')" class="cursor-pointer">
                         Tanggal
                         @if ($sortField === 'date')
-                            <i class="fas fa-sort-{{ $sortDirection === 'asc' ? 'up' : 'down' }}"></i>
+                            <i class="fas fa-sort-{{ $sortDirection === 'asc' ? 'up' : 'down' }}">
+
+                            </i>
                         @endif
                     </th>
                     <th>Total Absensi</th>
-                    <th>Status</th>
+                    <th>Status Waktu</th>
                     <th class="text-right"></th>
                 </tr>
             </thead>
@@ -105,7 +109,12 @@
                         <td class="align-middle">
                             <div class="min-w-0">
                                 <div class="font-medium truncate" title="{{ $agenda->name }}">{{ $agenda->name }}</div>
-                                <div class="text-xs text-gray-500">Oleh: {{ optional($agenda->user)->name }}</div>
+                                <div class="text-xs text-gray-500 flex items-center gap-1">
+                                    <span class="badge badge-primary badge-xs font-bold">
+                                        {{ $agenda->status }}
+                                    </span>
+                                    <span>Oleh: {{ optional($agenda->user)->name }}</span>
+                                </div>
                             </div>
                         </td>
                         <td>
@@ -166,7 +175,7 @@
                                     </svg>
                                 </a>
                                 <a href="{{ route('attendance.form', ['agendaId' => $agenda->id, 'slug' => $agenda->slug]) }}"
-                                    wire:navigate
+                                    target="_blank" rel="noopener"
                                     class="btn btn-square btn-sm backdrop-blur-md bg-white/10 border border-white/20 shadow hover:bg-green-500/20 hover:border-green-500/40"
                                     title="Absensi">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"

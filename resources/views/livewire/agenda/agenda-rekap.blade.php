@@ -146,11 +146,11 @@
                 @forelse($attendances as $index => $attendance)
                     <tr>
                         <td>{{ ($attendances->currentPage() - 1) * $attendances->perPage() + $index + 1 }}</td>
-                        <td>{{ $attendance->nama }}</td>
+                        <td>{{ $attendance->name }}</td>
                         <td>{{ $attendance->nip_nik ?: '-' }}</td>
                         <td>{{ $attendance->jabatan ?: '-' }}</td>
                         <td>{{ $attendance->instansi }}</td>
-                        <td>{{ $attendance->no_hp ?: '-' }}</td>
+                        <td>{{ $attendance->telp ?: '-' }}</td>
                         <td>{{ $attendance->email ?: '-' }}</td>
                         <td>{{ $attendance->waktu_hadir ? \Carbon\Carbon::parse($attendance->waktu_hadir)->format('d F Y H:i') : '-' }}
                         </td>

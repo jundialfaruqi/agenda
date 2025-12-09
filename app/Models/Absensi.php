@@ -20,6 +20,8 @@ class Absensi extends Model
         'asal_daerah',
         'telp',
         'instansi',
+        'email',
+        'keterangan',
         'ttd',
         'waktu_hadir',
         'status'
