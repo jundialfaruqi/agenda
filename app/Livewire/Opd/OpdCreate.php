@@ -8,7 +8,6 @@ use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Title;
 
-// Komponen Livewire untuk membuat OPD baru
 #[Title('Tambah OPD')]
 class OpdCreate extends Component
 {
